@@ -4,14 +4,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"bytes"
-	// json
 	"encoding/json"
-	// rand
-	// "math/rand"
-	// cli args
 	"os"
-	// sort
 	"sort"
+	"regexp"
 )
 
 // str is a type which is []byte
@@ -56,6 +52,12 @@ func main() {
 			fiveWords = append(fiveWords, string(word))
 		}
 	}
+
+	// filter for words that only have a-z
+	onlyLetters := regexp.MustCompile(`^[a-z]+$`)
+	fiveWords = filter(fiveWords, func(word string) bool {
+		return onlyLetters.MatchString(word)
+	})
 
 	// print length of array
 	fmt.Println("Found ", len(fiveWords), " words that are 5 characters long.")
